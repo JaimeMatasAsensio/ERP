@@ -17,12 +17,22 @@ function ConstructorCalledFunction()
   this.name = "ConstructorCalledFunction";
   this.message = "Constructor llamado como función, se necesita el operador 'new'";
 }
+//Herencia
 ConstructorCalledFunction.prototype = new TemplateError();
 ConstructorCalledFunction.prototype.constructor = ConstructorCalledFunction;
+ConstructorCalledFunction.prototype.toString = function(){
+  return TemplateError.toString.call(this);
+}
 
 function ParameterInvalid(param)
 /*Error para parametros no validos*/
 {
   this.name = "ParameterInvalid";
   this.message = "This is a invalid parameter "+ param;
+}
+//Herencia
+ParameterInvalid.prototype = new TemplateError();
+ParameterInvalid.prototype.constructor = ParameterInvalid;
+ParameterInvalid.prototype.toString = function(){
+  return TemplateError.toString.call(this);
 }

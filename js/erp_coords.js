@@ -28,6 +28,7 @@ InvalidLongitud.prototype.toString = function(){
 }
 
 function InvalidLatitud(latitud)
+/*Objeto de error cuando el parametro latitud no es correcto*/
 {
   this.name = "InvalidLatitud.";
   this.message = "This is a invalid values for parameter latitud ("+latitud+").";
@@ -40,8 +41,10 @@ InvalidLatitud.prototype.toString = function(){
 
 //Bloque del constructor coords
 
-function Coords (longitud,latitud){
-
+function Coords (longitud,latitud)
+/*Constructor de objetos Coords */
+{
+  //Validacion de inputs
   if(!(this instanceof Coords)) throw new ConstructorCalledFunction(longitud,latitud);
   if(!(Number.isFinite(longitud)) && !(Number.isFinite(latitud))) throw new ParametersInvalid(longitud,latitud);
   if(!(Number.isFinite(longitud))) throw new InvalidLongitud(longitud);
@@ -68,6 +71,7 @@ function Coords (longitud,latitud){
     }
   });
 }
+//Herencia
 Coords.prototype = {};
 Coords.prototype.constructor = Coords;
 Coords.prototype.toString = function(){

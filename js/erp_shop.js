@@ -3,7 +3,9 @@
 
 //Bloque de errores para shop
 
-function InvalidCifValue(cif){
+function InvalidCifValue(cif)
+/*Error lanzado cuando el valor de la propiedad Cif no es correcto */
+{
   this.name = "InvalidCifValue";
   this.message = "This '" + cif + "' isn`t a valid value for cif parameter";
 }
@@ -13,7 +15,9 @@ InvalidCifValue.prototype.toString = function(){
   return TemplateError.prototype.toString.call(this);
 }
 
-function InvalidPhoneValue(phone){
+function InvalidPhoneValue(phone)
+/*Error lanzado cuando el valor de la propiedad telefono no es correcto*/
+{
   this.name = "InvalidPhoneValue";
   this.message = "This '" + phone + "' isn`t avalid value for phone parameter"
 }
@@ -22,7 +26,9 @@ InvalidPhoneValue.prototype.constructor = InvalidPhoneValue;
 InvalidPhoneValue.prototype.toString = function(){
   return TemplateError.prototype.toString.call(this);
 }
-function NoNameShopValue(){
+function NoNameShopValue()
+/*Error lanzado cuando no hay valor de la propiedad nombre */
+{
   this.name = "NoNameShopValue";
   this.message = "Shop parameter 'name' must have a name";
 }
@@ -31,7 +37,9 @@ NoNameShopValue.prototype.constructor = NoNameShopValue;
 NoNameShopValue.prototype.toString = function(){
   return TemplateError.prototype.toString.call(this);
 }
-function NotAnObjectCoords(){
+function NotAnObjectCoords()
+/*Error lanzado cuando no se añade un objeto de la instancia Coords */
+{
   this.name = "NoAnObjectCorrds";
   this.message = "The parameter 'coord' need an object Coords";
 }
@@ -51,12 +59,13 @@ function Shop(cif,name,direccion,telefono,coords){
   if(!(coords instanceof Coords)) throw new NotAnObjectCoords();
 
   //Propiedades Privadas
-  var _idShop;
   var _cif = cif;
   var _name = name;
   var _direccion = direccion || "Unknown Direction";
   var _telefono = telefono || "Unknown Phone";
   var _coords = coords;
+  var _stock = [];
+  /*_stock[0] = {item:Product,cuantity:Number} */
 
   //getters & setters
   Object.defineProperty(this, "cif",{
@@ -102,7 +111,7 @@ function Shop(cif,name,direccion,telefono,coords){
       console.log("Coords value changed. Old value: " + _coords.id + "; New value: " + newCoords.id );
     }
   });
-
+   //Metodos para controlar _stock
 }
 Shop.prototype = {};
 Shop.prototype.constructor = Shop;

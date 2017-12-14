@@ -1,32 +1,27 @@
 "use strict";
 /**Documento para realizar distintas pruebas */
-var coord = new Coords(123456,-78969);
-console.log(coord.toString());
-var shop = new Shop(1234789,"Tienda Agapito","Pozo Seco del secarral; C/Jara; nº1",902212121,coord);
-console.log(shop.toString());
-
-var coordErr;
-var shopErr;
-console.log("--- Test de errores de Longitud ---")
-try {
-  coordErr = new Coords(1235456, "una latitud");
-} catch (e) {
-  console.log(e.toString());
-}
-try {
-  coordErr = new Coords("Una Longitud", 1235456);
-} catch (e) {
-  console.log(e.toString());
-}
-try {
-  coordErr = new Coords("una longitud", "una latitud");
-} catch (e) {
-  console.log(e.toString());
-}
+console.log("--- Test de Objetos ---");
 console.log("");
-console.log("--- Test de errores de shop ---");
-try {
-  shopErr = new Shop("uncif","un nombre","una Direccion","un telefono","unas coordenadas");
-} catch (e) {
-  console.log(e.toString());
-}
+console.log("-Objetos Product");
+var pro1 = new Movil(1,"Iphone X","La ultima version de movil de la conocida marca de la manzana...",24,849.99,"imagenes","Apple","50Mpx","120Gb");
+console.log(pro1.toString());
+console.log(pro1.nombre+" instanceof Product: "+(pro1 instanceof Product));
+console.log(pro1.nombre+" instanceof Movil: "+(pro1 instanceof Movil));
+console.log(pro1.nombre+" instanceof Camara: "+(pro1 instanceof Camara));
+console.log(pro1.nombre+" instanceof Ordendor: "+(pro1 instanceof Ordenador));
+
+var pro2 = new Ordenador(2,"GTS-1704-T3","Ordenador Portatil de ultima generacion",21,789.50,"imagenes","MSI","Intel i7","6Tb");
+console.log(pro2.toString());
+console.log(pro2.nombre+" instanceof Product: "+(pro2 instanceof Product));
+console.log(pro2.nombre+" instanceof Movil: "+(pro2 instanceof Movil));
+console.log(pro2.nombre+" instanceof Camara: "+(pro2 instanceof Camara));
+console.log(pro2.nombre+" instanceof Ordendor: "+(pro2 instanceof Ordenador));
+
+var pro3 = new Camara(3,"Fuji Reflex","Una camara para profesionales de la fotografia",18,1045,"imagenes","FujiFilm","Digital","36Gb");
+console.log(pro3.toString());
+console.log(pro3.nombre+" instanceof Product: "+(pro3 instanceof Product));
+console.log(pro3.nombre+" instanceof Movil: "+(pro3 instanceof Movil));
+console.log(pro3.nombre+" instanceof Camara: "+(pro3 instanceof Camara));
+console.log(pro3.nombre+" instanceof Ordendor: "+(pro3 instanceof Ordenador));
+console.log("");
+console.log("-Objetos ...");
