@@ -10,6 +10,7 @@ function TemplateError()
     return this.name + " " + this.message;
   }
 }
+
 function ConstructorCalledFunction()
 /*Error de llamada a constructores como funciones*/
 {

@@ -7,30 +7,39 @@ function InvalidCifValue(cif){
   this.name = "InvalidCifValue";
   this.message = "This '" + cif + "' isn`t a valid value for cif parameter";
 }
-InvalidCifValue.prototype = new TemaplateError();
+InvalidCifValue.prototype = new TemplateError();
 InvalidCifValue.prototype.constructor = InvalidCifValue;
+InvalidCifValue.prototype.toString = function(){
+  return TemplateError.prototype.toString.call(this);
+}
 
 function InvalidPhoneValue(phone){
   this.name = "InvalidPhoneValue";
   this.message = "This '" + phone + "' isn`t avalid value for phone parameter"
 }
-InvalidPhoneValue.prototype = new TemaplateError();
+InvalidPhoneValue.prototype = new TemplateError();
 InvalidPhoneValue.prototype.constructor = InvalidPhoneValue;
-
+InvalidPhoneValue.prototype.toString = function(){
+  return TemplateError.prototype.toString.call(this);
+}
 function NoNameShopValue(){
   this.name = "NoNameShopValue";
   this.message = "Shop parameter 'name' must have a name";
 }
-NoNameShopValue.prototype = new TemaplateError();
+NoNameShopValue.prototype = new TemplateError();
 NoNameShopValue.prototype.constructor = NoNameShopValue;
-
+NoNameShopValue.prototype.toString = function(){
+  return TemplateError.prototype.toString.call(this);
+}
 function NotAnObjectCoords(){
   this.name = "NoAnObjectCorrds";
   this.message = "The parameter 'coord' need an object Coords";
 }
-NotAnObjectCoords.prototype = new TemaplateError();
+NotAnObjectCoords.prototype = new TemplateError();
 NotAnObjectCoords.prototype.constructor = NotAnObjectCoords;
-
+NotAnObjectCoords.prototype.toString = function(){
+  return TemplateError.prototype.toString.call(this);
+}
 
 //Bloque del constructor para shop
 
@@ -41,6 +50,7 @@ function Shop(cif,name,direccion,telefono,coords){
   if(!name) throw new NoNameShopValue();
   if(!(coords instanceof Coords)) throw new NotAnObjectCoords();
 
+  //Propiedades Privadas
   var _idShop;
   var _cif = cif;
   var _name = name;
@@ -67,7 +77,7 @@ function Shop(cif,name,direccion,telefono,coords){
     }
   });
 
-  Object.defineProperty(this, "direction",{
+  Object.defineProperty(this, "direccion",{
     get: function () { return _direccion },
     set: function (newDirection) {
       if(!newDirection) newDirection = "Unknown Direction"
@@ -92,4 +102,10 @@ function Shop(cif,name,direccion,telefono,coords){
       console.log("Coords value changed. Old value: " + _coords.id + "; New value: " + newCoords.id );
     }
   });
+
+}
+Shop.prototype = {};
+Shop.prototype.constructor = Shop;
+Shop.prototype.toString = function(){
+  return "SN: "+this.cif+". Nombre: "+this.name+". Direccion: "+this.direccion+". Telefono: "+this.telefono+". Coordenadas: ("+this.coords.toString()+") "
 }
