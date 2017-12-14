@@ -96,7 +96,7 @@ InvalidValueForIVA.prototype.toString = function(){
     });
 
     Object.defineProperty(this,"IVA",{
-      get:
+      get:function(){return _IVA}
     });
 
     Object.defineProperty(this,"",{});
