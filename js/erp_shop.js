@@ -112,6 +112,7 @@ function Shop(cif,name,direccion,telefono,coords){
     }
   });
    //Metodos para controlar _stock
+   
 }
 Shop.prototype = {};
 Shop.prototype.constructor = Shop;

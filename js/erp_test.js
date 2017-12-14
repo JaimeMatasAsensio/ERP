@@ -19,9 +19,19 @@ console.log(pro2.nombre+" instanceof Ordendor: "+(pro2 instanceof Ordenador));
 
 var pro3 = new Camara(3,"Fuji Reflex","Una camara para profesionales de la fotografia",18,1045,"imagenes","FujiFilm","Digital","36Gb");
 console.log(pro3.toString());
-console.log(pro3.nombre+" instanceof Product: "+(pro3 instanceof Product));
-console.log(pro3.nombre+" instanceof Movil: "+(pro3 instanceof Movil));
-console.log(pro3.nombre+" instanceof Camara: "+(pro3 instanceof Camara));
-console.log(pro3.nombre+" instanceof Ordendor: "+(pro3 instanceof Ordenador));
+console.log(pro3.nombre+" instance of Product: "+(pro3 instanceof Product));
+console.log(pro3.nombre+" instance of Movil: "+(pro3 instanceof Movil));
+console.log(pro3.nombre+" instance of Camara: "+(pro3 instanceof Camara));
+console.log(pro3.nombre+" instance of Ordendor: "+(pro3 instanceof Ordenador));
 console.log("");
-console.log("-Objetos ...");
+console.log("-Objetos Category");
+
+var cat1 = new Category("Informatica","Equipos informaticos, Sobremesa, Portatiles, todo tipo de equipos relacionados con la informatica.");
+console.log(cat1.toString());
+console.log(cat1.titulo+" instance of Category: "+(cat1 instanceof Category));
+var cat2 = new Category("Imagen","Equipos fotograficos, grabacion de Video y todo tipo de equipos relacionados con la Imagen.");
+console.log(cat2.toString());
+console.log(cat2.titulo+" instance of Category: "+(cat1 instanceof Category));
+var cat3 = new Category("Comunicacion","Telefonos moviles, Fijos, radios de onda corta, radios de onda larga y todo tipo de equipos relacionados con la comunicacion.");
+console.log(cat3.toString());
+console.log(cat3.titulo+" instance of Category: "+(cat1 instanceof Category));

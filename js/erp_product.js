@@ -1,7 +1,7 @@
 "use strict";
 /*Documento para implemetar el objecto product y los objectos que heredaran de el*/
 
-//--- Bloque de Errores para Product
+//--- Bloque de Errores para objetos Product
 
 function UninstantiatedProductObject()
 /*Error lanzado cuando se intenta instanciar un objeto Product */
@@ -116,6 +116,7 @@ InvalidValueForIVA.prototype.toString = function(){
     });
 
     //Metodos Publicos
+
     Object.defineProperty(this,"precioConIVA",{
       get: function(){
         return _precio + (_precio * (_IVA/100));
@@ -132,7 +133,12 @@ InvalidValueForIVA.prototype.toString = function(){
 
   //--- Objetos que heredan de product
 
-  function Movil(SN,nombre,descripcion,IVA,precio,imagenes,marca,camara,memoria){
+  //- Objeto Movil
+  function Movil(SN,nombre,descripcion,IVA,precio,imagenes,marca,camara,memoria)
+  /*constructor de objetos Movil */
+  {
+    //Comprobacion de crecion de Instancia
+    if(!(this instanceof Movil)) throw new ConstructorCalledFunction();
     //Desbloqueo del Objeto Abstracto
     Lock = false;
     Product.call(this,SN,nombre,descripcion,IVA,precio,imagenes);
@@ -170,6 +176,9 @@ InvalidValueForIVA.prototype.toString = function(){
         _memoria = newMemoria;
       }
     });
+
+    //Metodos publicos - No tiene... por ahora
+
   }
   //herencia
   Movil.prototype = Object.create(Product.prototype);
@@ -178,7 +187,12 @@ InvalidValueForIVA.prototype.toString = function(){
     return Product.prototype.toString.call(this) + ". Camara: "+this.camara+". Marca: "+this.marca+". Memoria: "+this.memoria;
   } 
 
-  function Ordenador(SN,nombre,descripcion,IVA,precio,imagenes,marca,cpu,memoria){
+  //- Objeto Ordenador
+  function Ordenador(SN,nombre,descripcion,IVA,precio,imagenes,marca,cpu,memoria)
+  /*Constructor de objectos Ordenador */
+  {
+    //Comprobacion de crecion de Instancia
+    if(!(this instanceof Ordenador)) throw new ConstructorCalledFunction();
     //Desbloqueo del Objeto Abstracto
     Lock = false;
     Product.call(this,SN,nombre,descripcion,IVA,precio,imagenes);
@@ -216,6 +230,8 @@ InvalidValueForIVA.prototype.toString = function(){
         _memoria = newMemoria;
       }
     });
+
+    //Metodos publicos - No tiene... por ahora
   }
   //herencia
   Ordenador.prototype = Object.create(Product.prototype);
@@ -224,7 +240,11 @@ InvalidValueForIVA.prototype.toString = function(){
     return Product.prototype.toString.call(this) + ". Cpu: "+this.cpu+". Marca: "+this.marca+". Memoria: "+this.memoria;
   }
 
-  function Camara(SN,nombre,descripcion,IVA,precio,imagenes,marca,lente,memoria){
+  function Camara(SN,nombre,descripcion,IVA,precio,imagenes,marca,lente,memoria)
+  /*Constructor de objetos Camara */
+  {
+    //Comprobacion de crecion de Instancia
+    if(!(this instanceof Camara)) throw new ConstructorCalledFunction();
     //Desbloqueo del Objeto Abstracto
     Lock = false;
     Product.call(this,SN,nombre,descripcion,IVA,precio,imagenes);
