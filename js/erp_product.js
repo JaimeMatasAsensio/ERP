@@ -53,9 +53,18 @@ InvalidValueForIVA.prototype.toString = function(){
 
 //--- Bloque del constructor product y los objetos que herdan de el
 
-//Objecto Abstracto Product
+//-- Objecto Abstracto Product
 (function (){
-  var Lock = false;
+  var Lock = false;// Seguro para no instanciar la clase abstracta
+
+  //Indice unico para los Objectos que hereden de Producto
+  var IdProduct = (function (){
+    var IdProduct = 0;
+    return (function (){
+      return ++IdProduct;
+    })
+  })();//Generador de Indices Unicos para los Objetos que Heredan de Product
+
   function Product(SN,nombre,descripcion,IVA,precio,imagenes)
   /*Constructor de objetos product*/
   {
@@ -70,7 +79,7 @@ InvalidValueForIVA.prototype.toString = function(){
     if(!(Number.isFinite(precio)) && (precio > 0)) throw new InvalidValueForPrecio(precio);
 
     //Asignacion de valores. Parametros Privados
-    
+    var _IdProduct = IdProduct();
     var _SN = SN; // No Modificable
     var _nombre = nombre;
     var _descripcion = descripcion;
@@ -79,6 +88,10 @@ InvalidValueForIVA.prototype.toString = function(){
     var _imagenes = [];
 
     //Getters & Setters
+    Object.defineProperty(this,"IdProduct",{
+      get: function(){ return _IdProduct }
+    });
+
     Object.defineProperty(this,"SN",{
       get: function(){ return _SN }
     });
@@ -111,7 +124,7 @@ InvalidValueForIVA.prototype.toString = function(){
       get: function(){ return _precio},
       set: function(nuevoPrecio){
         if(!(Number.isFinite(nuevoPrecio)) && (nuevoPrecio > 0)) throw new InvalidValueForPrecio(precio);
-        _precio = nuevoPrecio;        
+        _precio = nuevoPrecio;
       }
     });
 
@@ -128,16 +141,16 @@ InvalidValueForIVA.prototype.toString = function(){
   Product.prototype = {};
   Product.prototype.constructor = Product;
   Product.prototype.toString = function(){
-    return "SN: " + this.SN + ". Nombre: "+this.nombre+". Descripcion: "+this.descripcion+". IVA: "+this.IVA+"%. Precio(sin IVA): "+this.precio+" €. Precio+IVA: "+this.precioConIVA+" €";
+    return "Id: "+this.IdProduct+". SN: " + this.SN + ". Nombre: "+this.nombre+". Descripcion: "+this.descripcion+". IVA: "+this.IVA+"%. Precio(sin IVA): "+this.precio+" €. Precio+IVA: "+this.precioConIVA+" €";
   }
 
-  //--- Objetos que heredan de product
+  //-- Objetos que heredan de product
 
   //- Objeto Movil
   function Movil(SN,nombre,descripcion,IVA,precio,imagenes,marca,camara,memoria)
   /*constructor de objetos Movil */
   {
-    //Comprobacion de crecion de Instancia
+    //Comprobacion de creacion de Instancia
     if(!(this instanceof Movil)) throw new ConstructorCalledFunction();
     //Desbloqueo del Objeto Abstracto
     Lock = false;
@@ -185,7 +198,7 @@ InvalidValueForIVA.prototype.toString = function(){
   Movil.prototype.constructor = Movil;
   Movil.prototype.toString = function(){
     return Product.prototype.toString.call(this) + ". Camara: "+this.camara+". Marca: "+this.marca+". Memoria: "+this.memoria;
-  } 
+  }
 
   //- Objeto Ordenador
   function Ordenador(SN,nombre,descripcion,IVA,precio,imagenes,marca,cpu,memoria)
@@ -240,6 +253,7 @@ InvalidValueForIVA.prototype.toString = function(){
     return Product.prototype.toString.call(this) + ". Cpu: "+this.cpu+". Marca: "+this.marca+". Memoria: "+this.memoria;
   }
 
+  //- Objeto Camara
   function Camara(SN,nombre,descripcion,IVA,precio,imagenes,marca,lente,memoria)
   /*Constructor de objetos Camara */
   {
@@ -254,7 +268,7 @@ InvalidValueForIVA.prototype.toString = function(){
     if(!marca) throw new UndefinedParameter("marca");
     if(!lente) throw new UndefinedParameter("lente");
     if(!memoria) throw new UndefinedParameter("memoria");
-    
+
     //Parametros privados
     var _marca = marca;
     var _lente = lente;
@@ -283,7 +297,7 @@ InvalidValueForIVA.prototype.toString = function(){
       }
     });
   }
-  //herencia
+  //Herencia
   Camara.prototype = Object.create(Product.prototype);
   Camara.prototype.constructor = Camara;
   Camara.prototype.toString = function(){

@@ -1,5 +1,5 @@
 "use strict";
-/*Documento JavaScript para la implementacion de los errores */
+/*Documento JavaScript para la implementacion de los errores genericos de la aplicacion*/
 
 function TemplateError()
 /*Plantilla de error para crear los errores genericos*/

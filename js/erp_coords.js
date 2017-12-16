@@ -1,5 +1,5 @@
 "use strict";
-/*Documento para implementar los obectos Coords */
+/*Documento para implementar los objetos Coords */
 
 //Bloque errores para coords
 

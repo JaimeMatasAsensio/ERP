@@ -13,12 +13,16 @@ function emptyNameStoreHouse(){
 var StoreHouse = (function(){
   var instancia;
   function init(){
+
     //Parte Privada
+    var nombreStore;
     var _shops = [];
-    
+    var _stock = [];
+    var _category = []
+
     //Parte Publica
     return{
-      
+
       /*Itearador para el array _shops */
       shopsIterator: function(){
         return{
@@ -31,14 +35,16 @@ var StoreHouse = (function(){
             }
           }
         }
-      }
-      
+      },
+
+
 
 
 
 
 
     };
+
   }
   return {
     getInstancia: function(){

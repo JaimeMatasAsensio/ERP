@@ -40,7 +40,7 @@ NoNameShopValue.prototype.toString = function(){
 function NotAnObjectCoords()
 /*Error lanzado cuando no se añade un objeto de la instancia Coords */
 {
-  this.name = "NoAnObjectCorrds";
+  this.name = "NoAnObjectCoords";
   this.message = "The parameter 'coord' need an object Coords";
 }
 NotAnObjectCoords.prototype = new TemplateError();
@@ -49,23 +49,72 @@ NotAnObjectCoords.prototype.toString = function(){
   return TemplateError.prototype.toString.call(this);
 }
 
-//Bloque del constructor para shop
+function NotAnObjectProduct()
+/*Error lanzado cuando no se añade un objeto de la instancia Product */
+{
+  this.name = "NoAnObjectProduct.";
+  this.message = "Object added to stock shop isn`t a Product Object";
+}
+NotAnObjectProduct.prototype = new TemplateError();
+NotAnObjectProduct.prototype.constructor = NotAnObjectProduct;
+NotAnObjectProduct.prototype.toString = function(){
+  return TemplateError.prototype.toString.call(this);
+}
 
-function Shop(cif,name,direccion,telefono,coords){
+function NotAnObjectCategory()
+/*Error lanzado cuando no se añade un objeto de la instancia Category */
+{
+  this.name = "NoAnObjectCategory.";
+  this.message = "Object added to stock shop isn`t a Category Object";
+}
+NotAnObjectCategory.prototype = new TemplateError();
+NotAnObjectCategory.prototype.constructor = NotAnObjectCategory;
+NotAnObjectCategory.prototype.toString = function(){
+  return TemplateError.prototype.toString.call(this);
+}
+
+function InvalidCuantitieValue(value,prop)
+/*Error lanzado con no se añade un valor adecuado en cantidad de producto */
+{
+  this.name = "InvalidCuantitieValue.";
+  this.message = "This value, '"+value+"', must be an integer number for the propierty '"+prop+"'.";
+}
+InvalidCuantitieValue.prototype = new TemplateError();
+InvalidCuantitieValue.prototype.constructor = InvalidCuantitieValue;
+InvalidCuantitieValue.prototype.toString = function(){
+  return TemplateError.prototype.toString.call(this);
+}
+function CategoryNotExistInShop(catId,shopName)
+/*Error lanzado cuando no existe la categoria dentro del array de categorias de la tienda*/
+{
+  this.name = "CategoryNotExistInShop.";
+  this.message = "This category, '"+catId+"', not exist in shop '"+shopName+"'.";
+}
+CategoryNotExistInShop.prototype = new TemplateError();
+CategoryNotExistInShop.prototype.constructor = CategoryNotExistInShop;
+CategoryNotExistInShop.prototype.toString = function(){
+  return TemplateError.prototype.toString.call(this);
+}
+
+//---Bloque del constructor para shop
+
+function Shop(cif,nombre,direccion,telefono,coords)
+/*Constructor de objetos Shop */
+{
   //validadores de parametros
   if(!(/^\d*$/).test(cif)) throw new InvalidCifValue(cif);
   if(!(/^\d{9}$/).test(telefono)) throw new InvalidPhoneValue(telefono);
-  if(!name) throw new NoNameShopValue();
+  if(!nombre) throw new NoNameShopValue();
   if(!(coords instanceof Coords)) throw new NotAnObjectCoords();
 
   //Propiedades Privadas
   var _cif = cif;
-  var _name = name;
+  var _nombre = nombre;
   var _direccion = direccion || "Unknown Direction";
   var _telefono = telefono || "Unknown Phone";
   var _coords = coords;
   var _stock = [];
-  /*_stock[0] = {item:Product,cuantity:Number} */
+  var _category = [];
 
   //getters & setters
   Object.defineProperty(this, "cif",{
@@ -77,12 +126,12 @@ function Shop(cif,name,direccion,telefono,coords){
     }
   });
 
-  Object.defineProperty(this, "name", {
-    get: function () { return _name },
-    set: function (newName){
-      if(!newName) throw new NoNameShopValue();
-      console.log("Name value changed. Old value: " + _name + "; New value: " + newName);
-      _name = newName;
+  Object.defineProperty(this, "nombre", {
+    get: function () { return _nombre },
+    set: function (NewNombre){
+      if(!NewNombre) throw new NoNameShopValue();
+      console.log("Name value changed. Old value: " + _nombre + "; New value: " + NewNombre);
+      _nombre = NewNombre;
     }
   });
 
@@ -111,9 +160,156 @@ function Shop(cif,name,direccion,telefono,coords){
       console.log("Coords value changed. Old value: " + _coords.id + "; New value: " + newCoords.id );
     }
   });
-   //Metodos para controlar _stock
-   
+
+  //Metodos para controlar _category = []
+  /*
+  Ejemplo de un valor en _category
+  _category[0] = {objCategory}
+  */
+  this.AddCategory = function (obj)
+  /*Metodo para añadir una categoria al array de categorias de la tienda*/
+  {
+    if(!(obj instanceof Category)) throw new NotAnObjectCategory();
+    var i = 0;
+    var exist = 0;
+    while(i < _category.length && !exist){
+      if(_category[i].IdCategory === obj.IdCategory){
+        exist = true;
+      }
+      if(!exist) i++;
+    }
+    if(!exist){
+      _category.push(obj);
+    }else{
+      return -1;
+    }
+    return i;
+    console.log(_category);
+  }
+
+  this.RemoveCategory = function(IdCat)
+  /*Metodo para eleminar uan categoria del array de categorias de la tienda, requiere el id de la categoria */
+  {
+    var i = _category.findIndex(function(element){
+      return (element.IdCategory == IdCat)
+    });
+
+    if(i != -1) _category.splice(i,1);
+
+    return i;
+
+  }
+
+  //Iterador del array de categorias
+  Object.defineProperty(this,"categoryIte",{
+    get: function(){
+      var nextIndex = 0;
+      return{
+        next: function(){
+          return nextIndex < _category.length ? {value: _category[nextIndex++],done:false} : {done: true};
+        }
+      }
+    }
+   });
+
+  //Metodos para controlar _stock = []
+    /*
+    Ejemplo de un valor de _stock
+    _stock[0] = {producto:Product, cantidad:Integer, categoriaId: IdCategory}
+    */
+
+    this.AddProduct = function(obj,cant,Idcat)
+    /*Metodo para insertar productos en el stock de tienda requiere un Id de categoria para relaccionar categoria y producto */
+    {
+      if(!(obj instanceof Product)) throw new NotAnObjectProduct();
+      if(!(Number.isInteger(cant)) && cant < 0) throw new InvalidCuantitieValue(cant,"cantidad");
+      var cant = cant || 1;// si no se especifica la cantidad se añade un item
+      //Buscamos si existe la categoria del producto
+      var catId = _category.findIndex(function(element){
+        return (element.IdCategory == Idcat)
+      });
+      if(catId != -1){
+        //Buscamos si el elemento ya esta en nuestro stock
+        var i = 0;
+        var addedCant = false;
+        while (i < _stock.length && !addedCant) {
+          if(_stock[i].producto.IdProduct === obj.IdProduct){// si el elemento esta solo añadira la cantidad que le pasemos
+            _stock[i].cantidad += cant;
+            addedCant = true;
+          }
+          i++;
+        }
+
+        if(!addedCant){//si no se encontro el elemento, quiere decir que no esta en nuestro Stock, lo añadiremos como nuevo elemento
+          _stock.push({
+            producto: obj,
+            cantidad: cant,
+            categoriaId: Idcat
+          });
+        }
+      }else{
+        return new CategoryNotExistInShop(catId,_nombre);//Si la categoria no esta entre las de la tienda, deuelve un error
+      }
+   }
+
+   this.AddQuantityProduct = function(proId,cant)
+   /*Metodo para insertar una cantidad a un producto, requiere Id del producto */
+   {
+    if(!(Number.isInteger(cant)) && cant < 0) throw new InvalidCuantitieValue(cant,"cantidad");// la cantidad debe ser un numero entero mayor a 0
+    var addQuant = _stock.findIndex(function(element){
+      return (element.producto.IdProduct === proId);
+    });
+    if(addQuant != -1){
+      _stock[addQuant].cantidad += cant;
+      return true;
+    }
+    return false;
+   }
+
+   this.RemoveProduct = function(proId)
+   /*Metodo para remover un producto, requiere la Id del producto*/
+   {
+    var removPro = _stock.findIndex(function(element){
+      return (element.producto.IdProduct === proId);
+    });
+    if( removPro != -1){
+      _stock.splice(removPro,1);
+      return true;
+    }
+    return false;
+   }
+
+   //Iterador de los objetos contenidos en _stock
+   Object.defineProperty(this,"stockIte",{
+    get: function(){
+      var nextIndex = 0;
+      return{
+        next: function(){
+          return nextIndex < _stock.length ? {value: _stock[nextIndex++],done:false} : {done: true};
+        }
+      }
+    }
+   });
+
+   //Iterador de los objetos contenidos en _stock por categoria
+    this.categoriesIte = function(catValue){
+      var filterstock = _stock.filter(function(element){
+        return (element.categoriaId === catValue);
+      });
+      if(filterstock.length){
+       return {
+          Index: 0,
+          filter:  filterstock,
+          next: function(){
+              return this.Index < this.filter.length ? {value: this.filter[this.Index++],done:false} : {done: true};
+          }
+      }
+      }else{
+        throw new CategoryNotExistInShop(catValue,_nombre);
+      }
+    }
 }
+
 Shop.prototype = {};
 Shop.prototype.constructor = Shop;
 Shop.prototype.toString = function(){
