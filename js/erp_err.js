@@ -2,7 +2,7 @@
 /*Documento JavaScript para la implementacion de los errores genericos de la aplicacion*/
 
 function TemplateError()
-/*Plantilla de error para crear los errores genericos*/
+/*Plantilla de error para crear los errores especificos*/
 {
   TemplateError.prototype = new Error(); // Heredamos de error
   TemplateError.prototype.constructor = TemplateError;

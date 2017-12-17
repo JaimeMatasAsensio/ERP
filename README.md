@@ -1,5 +1,7 @@
 # Practica Tema 4 - frameworkERP   
-
+  
+### Version 0.0.3  
+Implementacion del Objeto StoreHouse, relaciones entre objectos Category, Shop, Product  
 ### Version 0.0.2  
 Creacion de los objetos e implementacion category y shop. Correccion de algunos errores.  
 Implemetacion de Numeros de identificador unicos para los objetos:  

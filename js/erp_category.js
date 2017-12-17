@@ -1,7 +1,7 @@
 "use strict";
 /*Documento para implementar los objetos Category */
 
-//Bloque de Errores Para los objectos Category
+//Bloque de Errores Para los objetos Category
 
 function InvalidTitleValue(param)
 /*Error lanzado cuando el valor de titulo no es valido*/
@@ -43,7 +43,7 @@ function Category(titulo, descripcion){
 
   //Validacion de inputs
   if(!titulo) throw new InvalidTitleValue(titulo);
-  if(!descripcion) throw new InvalidDescriptionValue(descripcion);
+  if((typeof descripcion) != "string") throw new InvalidDescriptionValue(descripcion);
 
   //Parmetros privados
   var _IdCategory = IdCategory();

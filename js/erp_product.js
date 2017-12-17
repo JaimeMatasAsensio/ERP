@@ -4,7 +4,7 @@
 //--- Bloque de Errores para objetos Product
 
 function UninstantiatedProductObject()
-/*Error lanzado cuando se intenta instanciar un objeto Product */
+/*Error lanzado cuando se intenta instanciar un objeto Product*/
 {
  this.name = "UninstantiatedProductObject.";
  this.message = "Can not instantiate a Product Object.";
@@ -16,7 +16,7 @@ UninstantiatedProductObject.prototype.toString = function(){
 };
 
 function UndefinedParameter(param)
-/*Error lanzado cuando no se pasa un valor al constructor */
+/*Error lanzado cuando no se pasa un valor al constructor*/
 {
  this.name = "UndefinedPameter.";
  this.message = "Undefined value for parameter '" + param + "' ";
@@ -51,7 +51,7 @@ InvalidValueForIVA.prototype.toString = function(){
   return TemplateError.prototype.toString.call(this);
 };
 
-//--- Bloque del constructor product y los objetos que herdan de el
+//--- Bloque del constructor product y los objetos que heredan de el
 
 //-- Objecto Abstracto Product
 (function (){
@@ -63,7 +63,7 @@ InvalidValueForIVA.prototype.toString = function(){
     return (function (){
       return ++IdProduct;
     })
-  })();//Generador de Indices Unicos para los Objetos que Heredan de Product
+  })();
 
   function Product(SN,nombre,descripcion,IVA,precio,imagenes)
   /*Constructor de objetos product*/

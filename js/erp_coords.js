@@ -70,6 +70,9 @@ function Coords (longitud,latitud)
       _latitud = NuevaLatitud;
     }
   });
+
+  //Metods Publicos - No tiene... por ahora
+
 }
 //Herencia
 Coords.prototype = {};

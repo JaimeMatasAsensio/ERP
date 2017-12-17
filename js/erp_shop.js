@@ -61,6 +61,7 @@ NotAnObjectProduct.prototype.toString = function(){
   return TemplateError.prototype.toString.call(this);
 }
 
+
 function NotAnObjectCategory()
 /*Error lanzado cuando no se añade un objeto de la instancia Category */
 {
@@ -93,6 +94,30 @@ function CategoryNotExistInShop(catId,shopName)
 CategoryNotExistInShop.prototype = new TemplateError();
 CategoryNotExistInShop.prototype.constructor = CategoryNotExistInShop;
 CategoryNotExistInShop.prototype.toString = function(){
+  return TemplateError.prototype.toString.call(this);
+}
+
+function CategoryAlreadyExistInShop(catId,shopName)
+/*Error lanzado cuando no existe la categoria dentro del array de categorias de la tienda*/
+{
+  this.name = "CategoryAlreadyExistInShop.";
+  this.message = "This category, '"+catId+"', Already exist in shop '"+shopName+"'.";
+}
+CategoryAlreadyExistInShop.prototype = new TemplateError();
+CategoryAlreadyExistInShop.prototype.constructor = CategoryAlreadyExistInShop;
+CategoryAlreadyExistInShop.prototype.toString = function(){
+  return TemplateError.prototype.toString.call(this);
+}
+
+function ProductNotExistInShop(Id,shopName)
+/*Error lanzado cuando no existe la producto dentro del array de stock de la tienda*/
+{
+  this.name = "ProductNotExistInShop.";
+  this.message = "This category, '"+Id+"', not exist in shop '"+shopName+"'.";
+}
+ProductNotExistInShop.prototype = new TemplateError();
+ProductNotExistInShop.prototype.constructor = ProductNotExistInShop;
+ProductNotExistInShop.prototype.toString = function(){
   return TemplateError.prototype.toString.call(this);
 }
 
@@ -171,7 +196,7 @@ function Shop(cif,nombre,direccion,telefono,coords)
   {
     if(!(obj instanceof Category)) throw new NotAnObjectCategory();
     var i = 0;
-    var exist = 0;
+    var exist = false;
     while(i < _category.length && !exist){
       if(_category[i].IdCategory === obj.IdCategory){
         exist = true;
@@ -180,23 +205,27 @@ function Shop(cif,nombre,direccion,telefono,coords)
     }
     if(!exist){
       _category.push(obj);
+      return _category.length;
     }else{
-      return -1;
+      throw new CategoryAlreadyExistInShop(obj.IdCategory,_nombre);
     }
-    return i;
-    console.log(_category);
+
   }
 
   this.RemoveCategory = function(IdCat)
   /*Metodo para eleminar uan categoria del array de categorias de la tienda, requiere el id de la categoria */
   {
     var i = _category.findIndex(function(element){
-      return (element.IdCategory == IdCat)
+      return (element.IdCategory === IdCat)
     });
 
-    if(i != -1) _category.splice(i,1);
+    if(i != -1){
+      _category.splice(i,1);
+      return _category.length;
+    }else{
+      throw new CategoryNotExistInShop(IdCat,_nombre);
+    }
 
-    return i;
 
   }
 
@@ -247,6 +276,7 @@ function Shop(cif,nombre,direccion,telefono,coords)
             categoriaId: Idcat
           });
         }
+        return _stock.length; // devolvemos el numero de elementos en _stock
       }else{
         return new CategoryNotExistInShop(catId,_nombre);//Si la categoria no esta entre las de la tienda, deuelve un error
       }
@@ -261,9 +291,11 @@ function Shop(cif,nombre,direccion,telefono,coords)
     });
     if(addQuant != -1){
       _stock[addQuant].cantidad += cant;
-      return true;
+      return _stock[addQuant].cantidad;
+    }else{
+      throw new ProductNotExistInShop(proId,cant);
     }
-    return false;
+
    }
 
    this.RemoveProduct = function(proId)
@@ -274,9 +306,11 @@ function Shop(cif,nombre,direccion,telefono,coords)
     });
     if( removPro != -1){
       _stock.splice(removPro,1);
-      return true;
+      return _stock.length;
+    }else{
+      throw new ProductNotExistInShop(proId,cant);
     }
-    return false;
+
    }
 
    //Iterador de los objetos contenidos en _stock
@@ -303,7 +337,7 @@ function Shop(cif,nombre,direccion,telefono,coords)
           next: function(){
               return this.Index < this.filter.length ? {value: this.filter[this.Index++],done:false} : {done: true};
           }
-      }
+        }
       }else{
         throw new CategoryNotExistInShop(catValue,_nombre);
       }
