@@ -59,7 +59,7 @@ console.log("Added new category at index: " + shop1.AddCategory(cat3));
 console.log("Remove a category: "+shop1.RemoveCategory(cat3.IdCategory));
 console.log("Remove a category: "+shop1.RemoveCategory(cat3.IdCategory));
 console.log("Added new category at index: " + shop1.AddCategory(cat3));
-
+console.log("");
 console.log("Iterador de categorias "+shop1.nombre+" (shop1)");
 var ite = shop1.categoryIte;
 var cate = ite.next();
@@ -77,7 +77,7 @@ console.log("Quitamos el producto con ID 3... " + shop1.RemoveProduct(3));
 
 console.log("");
 console.log("Iterador de stock "+shop1.nombre+" (shop1)");
-var ite = shop1.stockIte;
+ite = shop1.stockIte;
 var item = ite.next();
 while(!item.done){
   console.log("Id Producto: "+item.value.producto.IdProduct+". Nombre: "+item.value.producto.nombre+". Marca: "+item.value.producto.marca+". Cantidad: "+item.value.cantidad+". Id Categoria: "+item.value.categoriaId);
@@ -91,9 +91,26 @@ while(!itemC.done){
   console.log("Id Producto: "+itemC.value.producto.IdProduct+". Nombre: "+itemC.value.producto.nombre+". Id category: "+itemC.value.categoriaId);
   itemC = iteC.next();
 }
-
-
-
+console.log("");
+console.log("- Objeto StoreHouse");
+try {
+  var ErrStore = StoreHouse.getInstance();
+} catch (e) {
+  console.log("Error: "+e.toString());
+}
+var Store = StoreHouse.getInstance("Store Villa las Cañas");
+console.log("Nombre del Store House: "+Store.nombre);
+console.log("Added new category at index: " + Store.AddCategory(cat1) + ". For store: "+Store.nombre);
+console.log("Added new category at index: " + Store.AddCategory(cat2) + ". For store: "+Store.nombre);
+console.log("Added new category at index: " + Store.AddCategory(cat3) + ". For store: "+Store.nombre);
+console.log("");
+console.log("Iterador de categorias para store: "+Store.name);
+ite = Store.categoryIte;
+var catStore = ite.next();
+while(!catStore.done){
+  console.log("Categoria: "+catStore.value.titulo+". Store: "+Store.nombre);
+  catStore = ite.next();
+}
 
 
 console.log("");
